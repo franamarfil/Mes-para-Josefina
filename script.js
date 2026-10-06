@@ -78,10 +78,13 @@ function burstAt(x, y) {
     setTimeout(() => b.remove(), 1300);
   }
 }
+document.addEventListener('pointerdown', e => {
+  if ($('sceneHeart').classList.contains('gone')) burstAt(e.clientX, e.clientY);
+});
 
 /* ---------- ESCENA 1 -> 2 ---------- */
 let expanded = false;
-function expandHeart() {
+function expandHeart(e) {
   if (expanded) return;
   expanded = true;
   clearTimeout(autoTimer);
@@ -89,19 +92,18 @@ function expandHeart() {
   $('bigHeart').classList.add('expand');
   setTimeout(() => document.body.classList.add('red'), 1300);
   setTimeout(() => {
-    $('sceneHeart').classList.remove('show');
-    $('sceneHeart').style.display = 'none';
+    $('sceneHeart').classList.add('gone');
     $('sceneEnvelope').classList.add('show');
     startFloating();
   }, 1900);
 }
 $('sceneHeart').addEventListener('click', expandHeart);
-$('sceneHeart').addEventListener('touchend', (e) => { e.preventDefault(); expandHeart(); });
+$('sceneHeart').addEventListener('touchend', (e) => { e.preventDefault(); expandHeart(); }, { passive: false });
 const autoTimer = setTimeout(expandHeart, 3200);
 
 /* ---------- ESCENA 2: sobre ---------- */
 $('btnOpen').addEventListener('click', openEnvelope);
-$('btnOpen').addEventListener('touchend', (e) => { e.preventDefault(); openEnvelope(); });
+$('btnOpen').addEventListener('touchend', (e) => { e.preventDefault(); openEnvelope(); }, { passive: false });
 
 $('btnNow').addEventListener('click', () => {
   $('laterMsg').classList.remove('show');
@@ -113,7 +115,7 @@ $('btnNow').addEventListener('touchend', (e) => {
   $('laterMsg').classList.remove('show');
   $('envButtons').classList.remove('hide');
   openEnvelope();
-});
+}, { passive: false });
 
 $('btnLater').addEventListener('click', () => {
   $('envButtons').classList.add('hide');
@@ -125,7 +127,7 @@ $('btnLater').addEventListener('touchend', (e) => {
   $('envButtons').classList.add('hide');
   $('envTitle').textContent = "Te espero 💕";
   $('laterMsg').classList.add('show');
-});
+}, { passive: false });
 
 let opened = false;
 function openEnvelope() {
@@ -140,8 +142,8 @@ function openEnvelope() {
 /* ---------- ESCENA 3: carta ---------- */
 function showCard() {
   $('sceneEnvelope').classList.remove('show');
-  $('sceneEnvelope').style.display = 'none';
   $('sceneCard').classList.add('show');
+  document.body.style.overflow = 'hidden';
   typeLetter();
   tick();
   setInterval(tick, 1000);
