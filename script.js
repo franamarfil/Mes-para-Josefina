@@ -1,18 +1,14 @@
 /* ============================================================
    ✏️  PERSONALIZÁ ACÁ
    ============================================================ */
-// Fecha en que se pusieron de novios (año, mes, día). OJO: el mes va del 1 al 12.
 const START = { year: 2023, month: 5, day: 6 };   // 06/05/2023 -> 6 de mayo de 2023
 
-// Foto de ustedes: pegá acá una imagen en formato data URI (data:image/jpeg;base64,...)
-// Si queda vacío, se muestra un marco con un corazón.
-const PHOTO = "Fotoo.jpeg";
+// Foto de ustedes en formato optimizado para iOS y web
+const PHOTO = "Fotoo.jpg";
 
-// Texto del sobre y de la firma
 const ENVELOPE_TITLE = "Felices 3 años y 5 meses 💌";
 const BRAND = "Para Josefina ♥";
 
-// Carta (cada elemento es un párrafo)
 const LETTER = [
   "Para el amor de mi vida:",
   "Si pudiera elegir un lugar seguro, sería junto a vos!.",
@@ -28,12 +24,12 @@ $('envTitle').textContent = ENVELOPE_TITLE;
 $('brand').textContent = BRAND;
 
 /* ---------- foto ---------- */
-/* ---------- foto ---------- */
 (function setPhoto() {
   const pic = $('pic');
   if (PHOTO) {
     const img = new Image();
-    img.src = PHOTO; img.alt = "Nuestra foto";
+    img.src = PHOTO; 
+    img.alt = "Nuestra foto";
     img.style.width = "100%";
     img.style.height = "100%";
     img.style.objectFit = "cover";
@@ -83,13 +79,18 @@ function burstAt(x, y) {
     setTimeout(() => b.remove(), 1300);
   }
 }
-document.addEventListener('pointerdown', e => {
-  if ($('sceneHeart').classList.contains('gone')) burstAt(e.clientX, e.clientY);
-});
+
+// Evento compatible con iOS para los toques en pantalla
+document.addEventListener('touchend', e => {
+  if ($('sceneHeart').classList.contains('gone') && e.changedTouches && e.changedTouches[0]) {
+    burstAt(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  }
+}, { passive: true });
 
 /* ---------- ESCENA 1 -> 2 ---------- */
 let expanded = false;
-function expandHeart() {
+function expandHeart(e) {
+  if (e) e.preventDefault();
   if (expanded) return;
   expanded = true;
   clearTimeout(autoTimer);
@@ -103,16 +104,32 @@ function expandHeart() {
   }, 1900);
 }
 $('sceneHeart').addEventListener('click', expandHeart);
+$('sceneHeart').addEventListener('touchend', expandHeart);
 const autoTimer = setTimeout(expandHeart, 3200);
 
 /* ---------- ESCENA 2: sobre ---------- */
 $('btnOpen').addEventListener('click', openEnvelope);
+$('btnOpen').addEventListener('touchend', (e) => { e.preventDefault(); openEnvelope(); });
+
 $('btnNow').addEventListener('click', () => {
   $('laterMsg').classList.remove('show');
   $('envButtons').classList.remove('hide');
   openEnvelope();
 });
+$('btnNow').addEventListener('touchend', (e) => {
+  e.preventDefault();
+  $('laterMsg').classList.remove('show');
+  $('envButtons').classList.remove('hide');
+  openEnvelope();
+});
+
 $('btnLater').addEventListener('click', () => {
+  $('envButtons').classList.add('hide');
+  $('envTitle').textContent = "Te espero 💕";
+  $('laterMsg').classList.add('show');
+});
+$('btnLater').addEventListener('touchend', (e) => {
+  e.preventDefault();
   $('envButtons').classList.add('hide');
   $('envTitle').textContent = "Te espero 💕";
   $('laterMsg').classList.add('show');
@@ -132,7 +149,7 @@ function openEnvelope() {
 function showCard() {
   $('sceneEnvelope').classList.remove('show');
   $('sceneCard').classList.add('show');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'auto'; // Permitir scroll en celulares si hace falta
   typeLetter();
   tick();
   setInterval(tick, 1000);
@@ -157,7 +174,7 @@ function typeLetter() {
       c++;
       setTimeout(typeChar, 38);
     } else {
-      cur.classList.remove('caret');
+      cur.classList.resmove ? cur.classList.remove('caret') : cur.classList.remove('caret');
       p++;
       setTimeout(nextParagraph, 450);
     }
