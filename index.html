@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Para el amor de mi vida 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="hearts"></div>
+
+<!-- ESCENA 1 -->
+<div class="scene" id="sceneHeart">
+  <div class="heart-wrap">
+    <svg class="big-heart" id="bigHeart" viewBox="0 0 32 29.6" aria-label="Corazón">
+      <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+    </svg>
+  </div>
+  <div class="hint" id="hint">Toca el corazón</div>
+</div>
+
+<!-- ESCENA 2 -->
+<div class="scene" id="sceneEnvelope">
+  <h1 class="env-title" id="envTitle">Felices 3 años y 5 meses 💌</h1>
+  <div class="envelope" id="envelope">
+    <div class="env-back"></div>
+    <div class="env-letter"><i></i><i></i><i></i><i></i></div>
+    <div class="env-pocket"></div>
+    <div class="env-flap"></div>
+    <svg class="seal" viewBox="0 0 32 29.6"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>
+  </div>
+  <div class="env-buttons" id="envButtons">
+    <button class="btn primary" id="btnOpen">Abrir YA!</button>
+    <button class="btn ghost" id="btnLater">Abrir más tarde</button>
+  </div>
+  <div class="later-msg" id="laterMsg">
+    Abrilo no seas maldita, asi lees la carta!.
+    <div style="margin-top:22px"><button class="btn primary" id="btnNow">Mejor abrir ahora</button></div>
+  </div>
+</div>
+
+<!-- ESCENA 3 -->
+<div class="scene" id="sceneCard">
+  <div class="brand" id="brand">Para vos ♥</div>
+  <div class="card">
+    <div class="card-grid">
+      <div class="letter" id="letter"></div>
+      <div class="photo-col">
+        <div class="polaroid">
+          <div class="pic" id="pic"></div>
+          <div class="cap">Josefina y Franco 💖</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div class="counter-label">Mi amor por vos comenzó hace...</div>
+      <div class="counter">
+        <div class="unit"><b id="cDays">0</b><span>días</span></div>
+        <div class="unit"><b id="cHours">00</b><span>horas</span></div>
+        <div class="unit"><b id="cMins">00</b><span>minutos</span></div>
+        <div class="unit"><b id="cSecs">00</b><span>segundos</span></div>
+      </div>
+      <div class="months" id="months"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
