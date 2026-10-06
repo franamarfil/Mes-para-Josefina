@@ -3,7 +3,6 @@
    ============================================================ */
 const START = { year: 2023, month: 5, day: 6 };   // 06/05/2023 -> 6 de mayo de 2023
 
-// Foto de ustedes en formato optimizado para iOS y web
 const PHOTO = "Fotoo.jpg";
 
 const ENVELOPE_TITLE = "Felices 3 años y 5 meses 💌";
@@ -80,17 +79,9 @@ function burstAt(x, y) {
   }
 }
 
-// Evento compatible con iOS para los toques en pantalla
-document.addEventListener('touchend', e => {
-  if ($('sceneHeart').classList.contains('gone') && e.changedTouches && e.changedTouches[0]) {
-    burstAt(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-  }
-}, { passive: true });
-
 /* ---------- ESCENA 1 -> 2 ---------- */
 let expanded = false;
-function expandHeart(e) {
-  if (e) e.preventDefault();
+function expandHeart() {
   if (expanded) return;
   expanded = true;
   clearTimeout(autoTimer);
@@ -98,13 +89,14 @@ function expandHeart(e) {
   $('bigHeart').classList.add('expand');
   setTimeout(() => document.body.classList.add('red'), 1300);
   setTimeout(() => {
-    $('sceneHeart').classList.add('gone');
+    $('sceneHeart').classList.remove('show');
+    $('sceneHeart').style.display = 'none';
     $('sceneEnvelope').classList.add('show');
     startFloating();
   }, 1900);
 }
 $('sceneHeart').addEventListener('click', expandHeart);
-$('sceneHeart').addEventListener('touchend', expandHeart);
+$('sceneHeart').addEventListener('touchend', (e) => { e.preventDefault(); expandHeart(); });
 const autoTimer = setTimeout(expandHeart, 3200);
 
 /* ---------- ESCENA 2: sobre ---------- */
@@ -148,8 +140,8 @@ function openEnvelope() {
 /* ---------- ESCENA 3: carta ---------- */
 function showCard() {
   $('sceneEnvelope').classList.remove('show');
+  $('sceneEnvelope').style.display = 'none';
   $('sceneCard').classList.add('show');
-  document.body.style.overflow = 'auto'; // Permitir scroll en celulares si hace falta
   typeLetter();
   tick();
   setInterval(tick, 1000);
@@ -174,7 +166,7 @@ function typeLetter() {
       c++;
       setTimeout(typeChar, 38);
     } else {
-      cur.classList.resmove ? cur.classList.remove('caret') : cur.classList.remove('caret');
+      cur.classList.remove('caret');
       p++;
       setTimeout(nextParagraph, 450);
     }
